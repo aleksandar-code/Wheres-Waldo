@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get 'leaderboard/index'
+  match '/leaderboard', to: 'leaderboard#index', via: :get
   root 'homepage#index'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
