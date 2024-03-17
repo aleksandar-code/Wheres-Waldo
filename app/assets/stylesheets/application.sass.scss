@@ -1,1 +1,47 @@
-// Entry point for your Sass build
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+}
+
+.header {
+  display: flex;
+}
+
+.header-btn {
+  color: white;
+  font-weight: bold;
+  font-size: 1.5em;
+  padding: 12px;
+  cursor: pointer;
+  background-color: #F95F18;
+  border: none;
+  height: 80px;
+  width: 240px;
+}
+
+.header-btn:hover {
+  color: black;
+}
+
+.header :nth-child(1) {
+  border-bottom-left-radius: 90px;
+}
+
+.header :nth-child(2) {
+  border-bottom-right-radius: 90px;
+}
+
+.header-btn.active {
+  background-color: #7D4D37;
+}
