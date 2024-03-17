@@ -12,7 +12,7 @@ export default () => (
         Play Game
       </Link>
       <Link
-        to="/"
+        to="/leaderboard"
         className={"header-btn " + (window.location.pathname == '/' ? '' : 'active')}
         role="button"
       >
