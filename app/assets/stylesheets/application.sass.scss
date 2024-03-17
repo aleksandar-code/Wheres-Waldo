@@ -19,13 +19,17 @@ nav {
 }
 
 .header-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
   color: white;
   font-weight: bold;
+  background-color: #F95F18;
   font-size: 1.5em;
   padding: 12px;
-  cursor: pointer;
-  background-color: #F95F18;
-  border: none;
   height: 80px;
   width: 240px;
 }
