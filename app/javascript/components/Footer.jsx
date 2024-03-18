@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 export default () => (
   <footer>
+{window.location.pathname == '/' ?
     <div className="footer">
       <div className="footer-score">
         <div className="remaining-score">Remaining 2/2</div>
@@ -13,5 +14,11 @@ export default () => (
         <button className="footer-btn give-up">Give up</button>
       </div>
     </div>
+     : 
+    <div className="footer">
+      <div className="footer-current-user">acjk20303</div>
+      <div className="footer-user-rank">Rank: 5</div>
+      <div className="footer-user-score">Score: 1000</div>
+    </div>}
   </footer>
 );
