@@ -6,7 +6,6 @@ import Main from "../components/Main";
 
 export default () => (
   <>
-    <button className="start-btn">PRESS START</button>
     <Navbar />
     <Main />
     <Footer />
