@@ -1,12 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import Footer from "../components/Footer"
+import Footer from "../components/Footer";
+import Main from "../components/Main";
 
 export default () => (
-  <div>
+  <>
+    <button className="start-btn">PRESS START</button>
     <Navbar />
-    <h1>Homepage</h1>
+    <Main />
     <Footer />
-  </div>
+  </>
 );

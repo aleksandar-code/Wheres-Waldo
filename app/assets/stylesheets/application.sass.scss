@@ -7,6 +7,14 @@
 body {
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
+}
+
+body > div {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  row-gap: 32.5px;
 }
 
 nav {
@@ -53,6 +61,7 @@ nav {
 footer {
   display: flex;
   justify-content: center;
+  margin-top: auto;
 }
 
 .footer {
@@ -92,4 +101,38 @@ footer {
   flex-direction: column;
   font-size: 1.2em;
   color: white;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image-placeholder {
+  width: 1280px;
+  height: 720px;
+  background-color: red;
+}
+
+.start-btn {
+  width: 400px;
+  height: 94px;
+  color: white;
+  background-color: #F95F18;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border: none;
+  border-radius: 88px;
+  font-size: 1.5em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all .5s ease;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.start-btn:hover {
+  color: black;
 }
