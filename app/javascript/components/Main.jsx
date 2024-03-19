@@ -1,9 +1,12 @@
-import React from "react";
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link, useLocation } from 'react-router-dom';
 
-export default () => (
-  <main>
-    {window.location.pathname == '/' ?
+export default () => {
+
+  return (
+    <main>
+      <div className="image"></div>
+    {useLocation().pathname == '/' ?
     <>
       <button className="start-btn">PRESS START</button>
       <div className="image-placeholder"></div>
@@ -36,4 +39,5 @@ export default () => (
       </div>
     </>}
   </main>
-);
+  );
+};
