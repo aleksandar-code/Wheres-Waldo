@@ -177,16 +177,9 @@ main {
   justify-content: space-between;
 }
 
-.image.disabled{
+.image {
   background-color: red;
   height: 720px;
   width: 1280px;
 }
 
- .image.enabled{
-  background-image: url("Where-is-waldo-1.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 720px;
-  width: 1280px;
-}
