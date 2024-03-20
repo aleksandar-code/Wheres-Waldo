@@ -1,15 +1,29 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Link, useLocation } from 'react-router-dom';
+
 
 export default () => {
 
+  const gameStatus = useRef(null);
+  const startBtn = useRef(null);
+  function changeGameStatus() {
+    if (gameStatus) {
+      console.log(gameStatus.current.classList[1]);
+      if (gameStatus.current.classList[1] == "disabled") {
+        gameStatus.current.classList.replace("disabled", "enabled");
+        console.log(gameStatus.current.classList[1]);
+        startBtn.current.classList.replace("enabled", "disabled")
+        console.log(startBtn.current.classList[1]);
+      }
+    }
+
+  }
   return (
     <main>
-      <div className="image"></div>
     {useLocation().pathname == '/' ?
     <>
-      <button className="start-btn">PRESS START</button>
-      <div className="image-placeholder"></div>
+      <button ref={startBtn} className="start-btn enabled" onClick={changeGameStatus}>PRESS START</button>
+      <div ref={gameStatus} className="image disabled"></div>
     </> :
     <>
       <div className="leaderboard">

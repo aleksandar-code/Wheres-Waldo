@@ -142,6 +142,10 @@ main {
   color: black;
 }
 
+.start-btn.disabled {
+  display: none;
+}
+
 // Leaderboard page
 
 .footer-current-user, .footer-user-rank, .footer-user-score {
@@ -173,7 +177,16 @@ main {
   justify-content: space-between;
 }
 
- .image {
+.image.disabled{
+  background-color: red;
+  height: 720px;
+  width: 1280px;
+}
+
+ .image.enabled{
   background-image: url("Where-is-waldo-1.png");
   background-repeat: no-repeat;
+  background-size: cover;
+  height: 720px;
+  width: 1280px;
 }
