@@ -183,3 +183,15 @@ main {
   width: 1280px;
 }
 
+.drop-down.enabled {
+  width: 32px;
+  height: 64px;
+  background-color: gray;
+  color: black;
+  position: absolute;
+  display: initial;
+}
+
+.drop-down.disabled {
+  display: none;
+}

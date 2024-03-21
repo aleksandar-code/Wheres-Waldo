@@ -4,6 +4,8 @@ import { Link, useLocation } from 'react-router-dom';
 export default () => {
   const level1 = useRef(null);
   const startBtn = useRef(null);
+  const dropDownDom = useRef(null);
+
   function changeGameStatus() {
     if (startBtn) {
       if (startBtn.current.classList[1] == "enabled") {
@@ -12,13 +14,43 @@ export default () => {
       }
     }
   }
+
+  function dropDown(e) {
+    if (dropDownDom) {
+      const xPos = e.pageX;
+      const yPos = e.pageY;
+      if (dropDownDom.current.classList[1] == "disabled"){
+      dropDownDom.current.classList.replace("disabled", "enabled");
+      console.log(xPos, yPos);
+      dropDownDom.current.style.top = yPos - 110 + "px" ;
+      dropDownDom.current.style.left = xPos + 16 + "px";
+      } 
+    else {
+      console.log(xPos, yPos)
+      dropDownDom.current.style.top = yPos - 110 + "px" ;
+      dropDownDom.current.style.left = xPos + 16 + "px";
+      console.log(e.target.localName);
+      }
+    }
+  }
+
+  window.addEventListener("click", (e) => {
+    if (dropDownDom) {
+      if (dropDownDom.current.classList[1] == "enabled" && e.target.localName !== "img") {
+        console.log(e.target.localName);
+        dropDownDom.current.classList.replace("enabled", "disabled");
+      }
+    }
+  });
+
   return (
     <main>
     {useLocation().pathname == '/' ?
     <>
       <button ref={startBtn} className="start-btn enabled" onClick={changeGameStatus}>PRESS START</button>
       <div className="image">
-        <img ref={level1} src={""} height="720" width="1280" alt="level 1 image" />
+        <div ref={dropDownDom} className="drop-down disabled">hello</div>
+        <img ref={level1} src={" "} height="720" width="1280" alt="" onClick={dropDown} draggable="false" style={{ userSelect: "none" }}/>
       </div>
 
     </> :
