@@ -34,16 +34,12 @@ export default () => {
 
         if (dropDownDom.current.classList[1] == "disabled"){
           dropDownDom.current.classList.replace("disabled", "enabled")
-          console.log('Cursor position: ' + xPos + ',' + yPos);
-          console.log(e.target.localName);
           dropDownDom.current.style.left = xPos + "px";
           dropDownDom.current.style.top = yPos + "px";
         } 
       else {
         dropDownDom.current.style.left = xPos + "px";
         dropDownDom.current.style.top = yPos + "px";
-        console.log('Cursor position: ' + xPos + ',' + yPos);
-        console.log(e.target.localName);
         }
       }
     }
