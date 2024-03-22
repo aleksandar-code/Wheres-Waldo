@@ -184,8 +184,8 @@ main {
 }
 
 .drop-down.enabled {
-  width: 32px;
-  height: 64px;
+  width: 64px;
+  height: 96px;
   background-color: gray;
   color: black;
   position: absolute;
@@ -194,4 +194,11 @@ main {
 
 .drop-down.disabled {
   display: none;
+}
+
+.drop-down.enabled li {
+  list-style-type: none;
+  cursor: pointer;
+  font-weight: bold;
+  border: 1px solid white;
 }

@@ -17,18 +17,18 @@ export default () => {
 
   function dropDown(e) {
     if (dropDownDom) {
-      const xPos = e.pageX;
-      const yPos = e.pageY;
+      const xPos = e.clientX;
+      const yPos = e.clientY;
       if (dropDownDom.current.classList[1] == "disabled"){
       dropDownDom.current.classList.replace("disabled", "enabled");
       console.log(xPos, yPos);
-      dropDownDom.current.style.top = yPos - 110 + "px" ;
-      dropDownDom.current.style.left = xPos + 16 + "px";
+      dropDownDom.current.style.top = yPos + "px" ;
+      dropDownDom.current.style.left = xPos + "px";
       } 
     else {
       console.log(xPos, yPos)
-      dropDownDom.current.style.top = yPos - 110 + "px" ;
-      dropDownDom.current.style.left = xPos + 16 + "px";
+      dropDownDom.current.style.top = yPos + "px" ;
+      dropDownDom.current.style.left = xPos + "px";
       console.log(e.target.localName);
       }
     }
@@ -49,7 +49,11 @@ export default () => {
     <>
       <button ref={startBtn} className="start-btn enabled" onClick={changeGameStatus}>PRESS START</button>
       <div className="image">
-        <div ref={dropDownDom} className="drop-down disabled">hello</div>
+        <div ref={dropDownDom} className="drop-down disabled" draggable="false" style={{ userSelect: "none" }}>
+          <li>Waldo</li>
+          <li>Wizard</li>
+          <li>Odlaw</li>
+        </div>
         <img ref={level1} src={" "} height="720" width="1280" alt="" onClick={dropDown} draggable="false" style={{ userSelect: "none" }}/>
       </div>
 
