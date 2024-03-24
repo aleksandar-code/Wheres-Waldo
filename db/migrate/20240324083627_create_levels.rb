@@ -5,7 +5,7 @@ class CreateLevels < ActiveRecord::Migration[7.1]
       t.integer :timer
       t.integer :score
       t.integer :found
-      t.integer :characters
+      t.integer :characters_number
 
       t.timestamps
     end
