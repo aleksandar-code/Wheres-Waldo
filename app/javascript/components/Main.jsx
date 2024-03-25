@@ -5,8 +5,14 @@ export default () => {
   const navigate = useNavigate();
   const [levels, setLevels] = useState([]);
   useEffect(() => {
+    const token = process.env.api_key;
     const url = "/api/v1/levels/index";
-    fetch(url)
+    fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
       .then((res) => {
         if (res.ok) {
           return res.json();
