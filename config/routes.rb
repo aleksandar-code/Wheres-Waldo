@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   end
   match '/leaderboard', to: 'leaderboard#index', via: :get
   root 'homepage#index'
-  get '/*path' => 'homepage#index'
+  match '/*path' => 'homepage#index', via: :all
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
