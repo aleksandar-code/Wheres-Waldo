@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Link, useLocation, useNavigate} from 'react-router-dom';
+import { Link, useFetcher, useLocation, useNavigate} from 'react-router-dom';
 
 export default () => {
   const navigate = useNavigate();
@@ -18,6 +18,10 @@ export default () => {
       .then((res) => setBoxes(res))
       .catch(() => navigate("/"));
   }
+
+  useEffect(() => {
+    console.log(box)
+  }, [box])
 
 
   useEffect(() => {
@@ -73,14 +77,11 @@ export default () => {
         dropDownDom.current.style.left = xPos + "px";
         dropDownDom.current.style.top = yPos + "px";
         console.log(xPos, yPos);
-        
-        console.log(box)
       } 
     else {
       dropDownDom.current.style.left = xPos + "px";
       dropDownDom.current.style.top = yPos + "px";
       console.log(xPos, yPos);
-      console.log(box)
       }
     }
   }

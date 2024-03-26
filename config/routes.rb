@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       get 'levels/index'
       get 'characters/something'
+      get 'characters/index'
     end
   end
   match '/leaderboard', to: 'leaderboard#index', via: :get

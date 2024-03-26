@@ -10,16 +10,21 @@ class Api::V1::CharactersController < ApplicationController
     render json: result
   end
 
-  private def boxCreation(result)
+  private def boxCreation(result) # need to do validation there.
     x = result[1].to_i
     y = result[2].to_i
-    a = 1
-    b = 800
-    if x.between?(a, b) && y.between?(a, b)
-      return 1
-    else
-      return 0
-    end
-  end
+    characters = Level.all.order(created_at: :desc).find_by(id: result[0].to_i).characters
+    answer = { answer: "no" }
+    characters.each do |char|
+      x1 = char.pixel_location["x"]
+      y1 = char.pixel_location["y"]
+      x2 = x1 + 64
+      y2 = y1 + 120
 
+      if x.between?(x1, x2) && y.between?(y1, y2)
+        answer = { answer: "yes" }
+      end
+    end
+    answer
+  end
 end
