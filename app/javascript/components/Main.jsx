@@ -4,8 +4,24 @@ import { Link, useLocation, useNavigate} from 'react-router-dom';
 export default () => {
   const navigate = useNavigate();
   const [levels, setLevels] = useState([]);
+  const [box, setBoxes] = useState();
+
+  const callBackend = (xPos, yPos) => {
+    const url = "/api/v1/characters/something?params=1+" + `${xPos}+${yPos}`;
+    fetch(url)
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        throw new Error("Network response was not ok.");
+      })
+      .then((res) => setBoxes(res))
+      .catch(() => navigate("/"));
+  }
+
+
   useEffect(() => {
-    const token = process.env.api_key;
+    const token = "aoeu863sheuao3uae93sa3iaotnsxma321455";
     const url = "/api/v1/levels/index";
     fetch(url, {
       method: "GET",
@@ -51,14 +67,20 @@ export default () => {
       const xPos = e.clientX - rect.left;
       const yPos = e.clientY - rect.top;
 
+      callBackend(xPos, yPos)
       if (dropDownDom.current.classList[1] == "disabled"){
         dropDownDom.current.classList.replace("disabled", "enabled")
         dropDownDom.current.style.left = xPos + "px";
         dropDownDom.current.style.top = yPos + "px";
+        console.log(xPos, yPos);
+        
+        console.log(box)
       } 
     else {
       dropDownDom.current.style.left = xPos + "px";
       dropDownDom.current.style.top = yPos + "px";
+      console.log(xPos, yPos);
+      console.log(box)
       }
     }
   }

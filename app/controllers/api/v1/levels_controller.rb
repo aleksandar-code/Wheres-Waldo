@@ -12,7 +12,6 @@ class Api::V1::LevelsController < ApplicationController
   private
     def authenticate
       authenticate_or_request_with_http_token do |token, options|
-        p options
         ActiveSupport::SecurityUtils.secure_compare(token, TOKEN)
       end
     end
