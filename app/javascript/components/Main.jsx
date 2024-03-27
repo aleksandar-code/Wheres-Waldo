@@ -5,6 +5,7 @@ export default () => {
   const navigate = useNavigate();
   const [levels, setLevels] = useState([]);
   const [box, setBoxes] = useState();
+  const [xy, setXy] = useState({x: 0, y: 0})
 
   const callBackend = (xPos, yPos, characterName) => {
     const url = "/api/v1/characters/something?params=1+" + `${xPos}+${yPos}+${characterName}`;
@@ -21,6 +22,9 @@ export default () => {
 
   useEffect(() => {
     console.log(box)
+    if (box && box["answer"] == "yes") {
+      console.log(box["characterName"]);
+    }
   }, [box])
 
 
@@ -75,11 +79,13 @@ export default () => {
         dropDownDom.current.classList.replace("disabled", "enabled")
         dropDownDom.current.style.left = xPos + "px";
         dropDownDom.current.style.top = yPos + "px";
+        setXy({x: xPos, y: yPos});
         console.log(xPos, yPos);
       } 
     else {
       dropDownDom.current.style.left = xPos + "px";
       dropDownDom.current.style.top = yPos + "px";
+      setXy({x: xPos, y: yPos});
       console.log(xPos, yPos);
       }
     }
@@ -91,17 +97,15 @@ export default () => {
     <>
       <button ref={startBtn} className="start-btn enabled" onClick={changeGameStatus}>PRESS START</button>
       <div className="image">
+        <div className="correct-marker disabled"></div>
         <div ref={dropDownDom} className="drop-down disabled" draggable="false" style={{ userSelect: "none" }}>
           {levels.length > 1 ?
           <>
             {levels[1].map((character) => (
               <li key={character.id} onClick={(e) => {
                 const characterName = e.target.textContent;
-                const rect = dropDownDom.current.getBoundingClientRect();
-                const xPos = rect.left;
-                const yPos = rect.top - 113;
-                console.log(xPos, yPos);
-                callBackend(xPos, yPos, characterName);
+                console.log(xy);
+                callBackend(xy["x"], xy["y"], characterName);
               }}>{character.name}</li>
             ))}
           </>
