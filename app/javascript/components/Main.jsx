@@ -1,11 +1,16 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Link, useFetcher, useLocation, useNavigate} from 'react-router-dom';
+import { Link, useLocation, useNavigate} from 'react-router-dom';
 
 export default () => {
   const navigate = useNavigate();
   const [levels, setLevels] = useState([]);
   const [box, setBoxes] = useState();
-  const [xy, setXy] = useState({x: 0, y: 0})
+  const [xy, setXy] = useState({x: 0, y: 0});
+  const level1 = useRef(null);
+  const startBtn = useRef(null);
+  const dropDownDom = useRef(null);
+  const correctMarker = useRef(null);
+  const incorrectMarker = useRef(null);
 
   const callBackend = (xPos, yPos, characterName) => {
     const url = "/api/v1/characters/something?params=1+" + `${xPos}+${yPos}+${characterName}`;
@@ -24,6 +29,16 @@ export default () => {
     console.log(box)
     if (box && box["answer"] == "yes") {
       console.log(box["characterName"]);
+      levels[1].forEach(element => {
+        if (element.name == box["characterName"]) {
+          element.found = true;
+          correctFeedback(xy["x"], xy["y"])
+        }
+      });
+    }
+    else if (box) {
+      console.log("no");
+      incorrectFeedback(xy["x"], xy["y"]);
     }
   }, [box])
 
@@ -47,9 +62,6 @@ export default () => {
       .catch(() => navigate("/"));
   }, []);
   
-  const level1 = useRef(null);
-  const startBtn = useRef(null);
-  const dropDownDom = useRef(null);
 
   function changeGameStatus() {
     if (startBtn) {
@@ -91,13 +103,33 @@ export default () => {
     }
   }
   
+  // place checkmark on the found character.
+  function correctFeedback(x, y) {
+    if (correctMarker) {
+      correctMarker.current.classList.replace("disabled", "enabled");
+      incorrectMarker.current.classList.replace("enabled", "disabled");
+      correctMarker.current.style.left = x + "px";
+      correctMarker.current.style.top = y + "px";
+    }
+  }
+
+  function incorrectFeedback(x, y) {
+    if (incorrectMarker) {
+      incorrectMarker.current.classList.replace("disabled", "enabled");
+      correctMarker.current.classList.replace("enabled", "disabled");
+      incorrectMarker.current.style.left = x + "px";
+      incorrectMarker.current.style.top = y + "px";
+    }
+  }
+  
   return (
     <main>
     {useLocation().pathname == '/' ?
     <>
       <button ref={startBtn} className="start-btn enabled" onClick={changeGameStatus}>PRESS START</button>
       <div className="image">
-        <div className="correct-marker disabled"></div>
+        <div ref={correctMarker} className="correct-marker disabled"></div>
+        <div ref={incorrectMarker} className="incorrect-marker disabled"></div>
         <div ref={dropDownDom} className="drop-down disabled" draggable="false" style={{ userSelect: "none" }}>
           {levels.length > 1 ?
           <>
