@@ -21,7 +21,7 @@ class Api::V1::CharactersController < ApplicationController
       x2 = x1 + 64
       y2 = y1 + 120
 
-      if x.between?(x1, x2) && y.between?(y1, y2)
+      if x.between?(x1, x2) && y.between?(y1, y2) && result[3] == char.name
         answer = { answer: "yes" }
       end
     end

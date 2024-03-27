@@ -6,8 +6,8 @@ export default () => {
   const [levels, setLevels] = useState([]);
   const [box, setBoxes] = useState();
 
-  const callBackend = (xPos, yPos) => {
-    const url = "/api/v1/characters/something?params=1+" + `${xPos}+${yPos}`;
+  const callBackend = (xPos, yPos, characterName) => {
+    const url = "/api/v1/characters/something?params=1+" + `${xPos}+${yPos}+${characterName}`;
     fetch(url)
       .then((res) => {
         if (res.ok) {
@@ -70,8 +70,7 @@ export default () => {
       const rect = level1.current.getBoundingClientRect(); 
       const xPos = e.clientX - rect.left;
       const yPos = e.clientY - rect.top;
-
-      callBackend(xPos, yPos)
+      
       if (dropDownDom.current.classList[1] == "disabled"){
         dropDownDom.current.classList.replace("disabled", "enabled")
         dropDownDom.current.style.left = xPos + "px";
@@ -96,7 +95,14 @@ export default () => {
           {levels.length > 1 ?
           <>
             {levels[1].map((character) => (
-              <li key={character.id}>{character.name}</li>
+              <li key={character.id} onClick={(e) => {
+                const characterName = e.target.textContent;
+                const rect = dropDownDom.current.getBoundingClientRect();
+                const xPos = rect.left;
+                const yPos = rect.top - 113;
+                console.log(xPos, yPos);
+                callBackend(xPos, yPos, characterName);
+              }}>{character.name}</li>
             ))}
           </>
         : "Loading"}
