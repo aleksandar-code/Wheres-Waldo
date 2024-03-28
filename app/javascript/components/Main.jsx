@@ -40,6 +40,8 @@ export default () => {
       console.log("no");
       incorrectFeedback(xy["x"], xy["y"]);
     }
+
+    
   }, [box])
 
 

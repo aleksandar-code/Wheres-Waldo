@@ -27,8 +27,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_24_084328) do
   create_table "levels", force: :cascade do |t|
     t.string "image"
     t.integer "timer"
-    t.integer "score"
-    t.integer "found"
     t.integer "characters_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
