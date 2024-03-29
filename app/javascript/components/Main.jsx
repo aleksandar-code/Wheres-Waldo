@@ -11,6 +11,7 @@ export default () => {
   const dropDownDom = useRef(null);
   const correctMarker = useRef(null);
   const incorrectMarker = useRef(null);
+  const [foundNumber, setFoundNumber] = useState(0)
 
   const callBackend = (xPos, yPos, characterName) => {
     const url = "/api/v1/characters/something?params=1+" + `${xPos}+${yPos}+${characterName}`;
@@ -27,12 +28,18 @@ export default () => {
 
   useEffect(() => {
     console.log(box)
-    if (box && box["answer"] == "yes") {
+    if (box && box["gameEnd"] == true) {
+      console.log('gamendaseotuhaoe');
+      location.reload(true);
+    }
+
+    else if (box && box["answer"] == "yes") {
       console.log(box["characterName"]);
       levels[1].forEach(element => {
-        if (element.name == box["characterName"]) {
+        if (element.name == box["characterName"] && element.found != true) {
           element.found = true;
-          correctFeedback(xy["x"], xy["y"])
+          correctFeedback(xy["x"], xy["y"]);
+          updateFoundFeedback();
         }
       });
     }
@@ -40,9 +47,13 @@ export default () => {
       console.log("no");
       incorrectFeedback(xy["x"], xy["y"]);
     }
-
-    
   }, [box])
+
+  useEffect(() => {
+    const foundCharacters = window.document.querySelector(".footer-score");
+    foundCharacters.textContent = "Found Characters " + `${foundNumber}/3`;
+    console.log("FOUND CHARACTER", foundNumber);
+  }, [foundNumber]);
 
 
   useEffect(() => {
@@ -122,6 +133,10 @@ export default () => {
       incorrectMarker.current.style.left = x + "px";
       incorrectMarker.current.style.top = y + "px";
     }
+  }
+
+  function updateFoundFeedback() {
+    setFoundNumber(foundNumber + 1);
   }
   
   return (

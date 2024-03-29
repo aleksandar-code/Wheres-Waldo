@@ -78,32 +78,10 @@ footer {
 
 // Homepage
 
-.footer-btns {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  column-gap: 72px;
-}
-
-.footer-btn {
-  font-size: 1.5em;
-  text-decoration: none;
-  background: none;
-  border: none;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all .5s ease;
-}
-
-.footer-btn:hover {
-  color: black;
-}
-
 .footer-score {
   display: flex;
   flex-direction: column;
-  font-size: 1.2em;
+  font-size: 1.5em;
   color: white;
 }
 

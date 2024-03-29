@@ -20,7 +20,7 @@ class Api::V1::CharactersController < ApplicationController
     x = result[1].to_i
     y = result[2].to_i
     characters = Level.all.order(created_at: :desc).find_by(id: result[0].to_i).characters
-    answer = { answer: "no" }
+    answer = { answer: "no", gameEnd: false }
     characters.each do |char|
       x1 = char.pixel_location["x"]
       y1 = char.pixel_location["y"]

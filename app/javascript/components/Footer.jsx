@@ -1,17 +1,13 @@
 import React from "react";
 import { Link, useLocation } from 'react-router-dom';
 
-export default () => (
+export default (foundCharacters) => {
+  
+  return (
   <footer>
     {useLocation().pathname == '/' ?
     <div className="footer">
-      <div className="footer-score">
-        <div className="remaining-score">Remaining 3/3</div>
-        <div className="remaining-time">Time 0</div>
-      </div>
-      <div className="footer-btns">
-        <button className="footer-btn give-up">Give up</button>
-      </div>
+      <div className="footer-score">Found Characters 0/3</div>
     </div>
      : 
     <div className="footer">
@@ -20,4 +16,5 @@ export default () => (
       <div className="footer-user-score">Score: 1000</div>
     </div>}
   </footer>
-);
+  )
+};
