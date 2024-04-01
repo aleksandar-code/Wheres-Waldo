@@ -1,24 +1,6 @@
-# README
+# Where is waldo
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+This project is my first fullstack project.
+I used react and rails, they don't work too well together but it was okay.
+I know that the code is not very ordered and probably not "professional".
+I might or might not refactor.
