@@ -1,6 +1,6 @@
 class Api::V1::LeaderboardController < ApplicationController
   def index
-    leaderboard = Leaderboard.all.order(created_at: :desc)
+    leaderboard = Leaderboard.all.order(score: :desc)
     render json: leaderboard
   end
 
@@ -8,9 +8,11 @@ class Api::V1::LeaderboardController < ApplicationController
     leaderboard = Leaderboard.new(username: params[:username], score: Level.first.score)
 
     if leaderboard.save
-      render json: leaderboard, status: :created
+      flash[:notice] = "You have successfully joined the leaderboards."
+      redirect_to leaderboard_path
     else
-      render json: leaderboard.errors, status: :unproccessable_entity
+      flash[:notice] = "Error, you haven't joined leaderboards."
+      redirect_to leaderboard_path
     end
   end
 end

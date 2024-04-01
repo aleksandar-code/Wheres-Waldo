@@ -14,6 +14,7 @@ class Api::V1::CharactersController < ApplicationController
       result[:gameEnd] = true
       result[:score] = calculateScore
       Level.first.update!(score: result[:score])
+      result[:highscore] = isHighScore(result[:score])
       resetGame
     end
     render json: result
@@ -67,5 +68,10 @@ class Api::V1::CharactersController < ApplicationController
 
     return 100 if score < 100
     return score.round()
+  end
+
+  def isHighScore(score)
+    leaderboard = Leaderboard.limit(5).order(score: :desc)
+    score >= leaderboard[4].score
   end
 end
