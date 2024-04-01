@@ -7,9 +7,13 @@ class Api::V1::CharactersController < ApplicationController
   def something
     result = params[:params].split(" ")
     result = boxCreation(result)
+    if Level.first.timer == 0
+      Level.first.update!(timer: Time.now.to_i)
+    end
     if gameEnds
-      resetGame
       result[:gameEnd] = true
+      result[:timer] = Time.now.to_i - Level.first.timer
+      resetGame
     end
     render json: result
   end
@@ -44,6 +48,7 @@ class Api::V1::CharactersController < ApplicationController
       char.save
       char.reload
     end
+    Level.first.update!(timer: 0)
   end
 
   def gameEnds

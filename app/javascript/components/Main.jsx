@@ -30,7 +30,8 @@ export default () => {
     console.log(box)
     if (box && box["gameEnd"] == true) {
       console.log('gamendaseotuhaoe');
-      location.reload(true);
+      correctFeedback(xy["x"], xy["y"]);
+      updateFoundFeedback();
     }
 
     else if (box && box["answer"] == "yes") {
