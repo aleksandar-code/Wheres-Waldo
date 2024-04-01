@@ -12,7 +12,7 @@ class Api::V1::CharactersController < ApplicationController
     end
     if gameEnds
       result[:gameEnd] = true
-      result[:timer] = Time.now.to_i - Level.first.timer
+      result[:score] = calculateScore
       resetGame
     end
     render json: result
@@ -59,5 +59,12 @@ class Api::V1::CharactersController < ApplicationController
     end
     return true if array.uniq!.size == 1 && array[0] == true
     false
+  end
+
+  def calculateScore
+    score = (1000 - (Time.now.to_i - Level.first.timer)) * 2.2
+
+    return 100 if score < 100
+    return score
   end
 end

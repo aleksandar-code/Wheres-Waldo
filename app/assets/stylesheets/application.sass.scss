@@ -264,3 +264,24 @@ main {
   transform: translateX(10px) rotate(-45deg);
   transform-origin: left bottom;
 }
+
+.input-username.enabled {
+  color: white;
+  background-color: #18f96e;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border: none;
+  border-radius: 88px;
+  font-size: 1.5em;
+  font-weight: bold;
+  transition: all 0.5s ease;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  display: inherit;
+}
+
+.input-username.disabled {
+  display: none;
+}

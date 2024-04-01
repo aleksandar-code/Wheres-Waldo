@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Link, useLocation, useNavigate} from 'react-router-dom';
+import LeaderboardInput from "./LeaderboardInput";
 
 export default () => {
   const navigate = useNavigate();
@@ -32,6 +33,12 @@ export default () => {
       console.log('gamendaseotuhaoe');
       correctFeedback(xy["x"], xy["y"]);
       updateFoundFeedback();
+
+      const div = document.querySelector(".input-username");
+      div.classList.replace("disabled", "enabled");
+
+      const imageDiv = document.querySelector(".image");
+      imageDiv.style.pointerEvents = "none"
     }
 
     else if (box && box["answer"] == "yes") {
@@ -145,6 +152,7 @@ export default () => {
     {useLocation().pathname == '/' ?
     <>
       <button ref={startBtn} className="start-btn enabled" onClick={changeGameStatus}>PRESS START</button>
+      <LeaderboardInput />
       <div className="image">
         <div ref={correctMarker} className="correct-marker disabled"></div>
         <div ref={incorrectMarker} className="incorrect-marker disabled"></div>
