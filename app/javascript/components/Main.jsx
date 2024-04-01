@@ -30,15 +30,14 @@ export default () => {
   useEffect(() => {
     console.log(box)
     if (box && box["gameEnd"] == true) {
-      console.log('gamendaseotuhaoe');
       correctFeedback(xy["x"], xy["y"]);
       updateFoundFeedback();
-
       const div = document.querySelector(".input-username");
       div.classList.replace("disabled", "enabled");
 
       const imageDiv = document.querySelector(".image");
       imageDiv.style.pointerEvents = "none"
+      document.querySelector("#score").value = box["score"]
     }
 
     else if (box && box["answer"] == "yes") {

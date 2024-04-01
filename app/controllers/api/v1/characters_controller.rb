@@ -13,6 +13,7 @@ class Api::V1::CharactersController < ApplicationController
     if gameEnds
       result[:gameEnd] = true
       result[:score] = calculateScore
+      Level.first.update!(score: result[:score])
       resetGame
     end
     render json: result
@@ -65,6 +66,6 @@ class Api::V1::CharactersController < ApplicationController
     score = (1000 - (Time.now.to_i - Level.first.timer)) * 2.2
 
     return 100 if score < 100
-    return score
+    return score.round()
   end
 end
