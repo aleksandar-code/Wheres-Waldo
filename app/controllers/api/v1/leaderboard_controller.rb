@@ -1,6 +1,6 @@
 class Api::V1::LeaderboardController < ApplicationController
   def index
-    leaderboard = Leaderboard.all.order(score: :desc)
+    leaderboard = Leaderboard.limit(5).order(score: :desc)
     render json: leaderboard
   end
 
