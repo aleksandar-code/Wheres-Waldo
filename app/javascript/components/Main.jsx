@@ -15,7 +15,8 @@ export default () => {
   const incorrectMarker = useRef(null);
   const [foundNumber, setFoundNumber] = useState(0)
   const callBackend = (xPos, yPos, characterName) => {
-    const url = "/api/v1/characters/something?params=1+" + `${xPos}+${yPos}+${characterName}`;
+    const url = "/api/v1/characters/something?" + 
+    `xyzguess[x]=${xPos}&xyzguess[y]=${yPos}&xyzguess[character]=${characterName}`;
     fetch(url)
       .then((res) => {
         if (res.ok) {

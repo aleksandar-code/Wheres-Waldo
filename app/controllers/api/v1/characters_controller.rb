@@ -5,8 +5,7 @@ class Api::V1::CharactersController < ApplicationController
   end
 
   def something
-    result = params[:params].split(" ")
-    result = boxCreation(result)
+    result = boxCreation(characters_params)
     if Level.first.timer == 0
       Level.first.update!(timer: Time.now.to_i)
     end
@@ -23,9 +22,9 @@ class Api::V1::CharactersController < ApplicationController
   private
 
   def boxCreation(result) # need to do validation there.
-    x = result[1].to_i
-    y = result[2].to_i
-    characters = Level.all.order(created_at: :desc).find_by(id: result[0].to_i).characters
+    x = result["x"].to_i
+    y = result["y"].to_i
+    characters = Level.all.order(created_at: :desc).first.characters
     answer = { answer: "no", gameEnd: false }
     characters.each do |char|
       x1 = char.pixel_location["x"]
@@ -33,7 +32,7 @@ class Api::V1::CharactersController < ApplicationController
       x2 = x1 + 64
       y2 = y1 + 120
 
-      if x.between?(x1, x2) && y.between?(y1, y2) && result[3] == char.name
+      if x.between?(x1, x2) && y.between?(y1, y2) && result["character"] == char.name
         answer = { answer: "yes", characterName: char.name, gameEnd: false }
         char.found = true
         char.save
@@ -77,5 +76,9 @@ class Api::V1::CharactersController < ApplicationController
     else
       score >= leaderboard[4].score
     end
+  end
+
+  def characters_params
+    params.require(:xyzguess).permit(:x, :y, :character)
   end
 end
