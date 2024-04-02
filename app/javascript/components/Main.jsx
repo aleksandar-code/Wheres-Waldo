@@ -214,11 +214,17 @@ export default () => {
             <div>5</div>
           </div>
           <div className="usernames">
-            <div>{leaderboards[0].username}</div>
-            
+            {leaderboards.map((player) => (
+              <div key={player.id} onClick={(e) => {
+              }}>{player.username}</div>
+            ))}
           </div>
           <div className="scores">
-            <div>{leaderboards[0].score}</div>
+          {leaderboards.map((player) => (
+              <div key={player.id} onClick={(e) => {
+              }}>{player.score}</div>
+            ))
+          }
       
           </div>
         </div>
