@@ -72,6 +72,10 @@ class Api::V1::CharactersController < ApplicationController
 
   def isHighScore(score)
     leaderboard = Leaderboard.limit(5).order(score: :desc)
-    score >= leaderboard[4].score
+    if leaderboard.length < 5
+      true
+    else
+      score >= leaderboard[4].score
+    end
   end
 end

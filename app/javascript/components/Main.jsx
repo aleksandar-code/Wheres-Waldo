@@ -81,7 +81,7 @@ export default () => {
 
         const imageDiv = document.querySelector(".image");
         imageDiv.style.pointerEvents = "none"
-        document.querySelector("#score").value = box["score"]
+        document.querySelector("#score").textContent = box["score"]
       }
       else {
         location.reload(true);
@@ -215,17 +215,11 @@ export default () => {
           </div>
           <div className="usernames">
             <div>{leaderboards[0].username}</div>
-            <div>{leaderboards[1].username}</div>
-            <div>{leaderboards[2].username}</div>
-            <div>{leaderboards[3].username}</div>
-            <div>{leaderboards[4].username}</div>
+            
           </div>
           <div className="scores">
             <div>{leaderboards[0].score}</div>
-            <div>{leaderboards[1].score}</div>
-            <div>{leaderboards[2].score}</div>
-            <div>{leaderboards[3].score}</div>
-            <div>{leaderboards[4].score}</div>
+      
           </div>
         </div>
       </div>
