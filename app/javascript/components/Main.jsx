@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Link, useLocation, useNavigate} from 'react-router-dom';
+import { useLocation, useNavigate} from 'react-router-dom';
 import LeaderboardInput from "./LeaderboardInput";
 
 export default () => {
@@ -14,9 +14,9 @@ export default () => {
   const correctMarker = useRef(null);
   const incorrectMarker = useRef(null);
   const [foundNumber, setFoundNumber] = useState(0)
-  const callBackend = (xPos, yPos, characterName) => {
-    const url = "/api/v1/characters/something?" + 
-    `xyzguess[x]=${xPos}&xyzguess[y]=${yPos}&xyzguess[character]=${characterName}`;
+  // refactor api calls
+
+  const apiCall = (url, setState) => {
     fetch(url)
       .then((res) => {
         if (res.ok) {
@@ -24,8 +24,14 @@ export default () => {
         }
         throw new Error("Network response was not ok.");
       })
-      .then((res) => setBoxes(res))
+      .then((res) => setState(res))
       .catch(() => navigate("/"));
+  }
+
+  const verifyUserGuess = (xPos, yPos, characterName) => {
+    const url = "/api/v1/characters/something?" + 
+    `xyzguess[x]=${xPos}&xyzguess[y]=${yPos}&xyzguess[character]=${characterName}`;
+    apiCall(url, setBoxes);
   }
 
   function dropDown(e) {
@@ -71,105 +77,81 @@ export default () => {
 
   if (useLocation().pathname == '/')
   {
-  useEffect(() => {
-    console.log(box)
-    if (box && box["gameEnd"] == true) {
-      correctFeedback(xy["x"], xy["y"]);
-      updateFoundFeedback();
-      if (box["highscore"] == true) {
-        const div = document.querySelector(".input-username");
-        div.classList.replace("disabled", "enabled");
+    useEffect(() => {
+      console.log(box)
+      if (box && box["gameEnd"] == true) {
+        correctFeedback(xy["x"], xy["y"]);
+        updateFoundFeedback();
+        if (box["highscore"] == true) {
+          const div = document.querySelector(".input-username");
+          div.classList.replace("disabled", "enabled");
 
-        const imageDiv = document.querySelector(".image");
-        imageDiv.style.pointerEvents = "none"
-        document.querySelector("#score").textContent = box["score"]
-      }
-      else {
-        location.reload(true);
-      }
-    }
-
-    else if (box && box["answer"] == "yes") {
-      console.log(box["characterName"]);
-      levels[1].forEach(element => {
-        if (element.name == box["characterName"] && element.found != true) {
-          element.found = true;
-          correctFeedback(xy["x"], xy["y"]);
-          updateFoundFeedback();
+          const imageDiv = document.querySelector(".image");
+          imageDiv.style.pointerEvents = "none"
+          document.querySelector("#score").textContent = box["score"]
         }
-      });
-    }
-    else if (box) {
-      console.log("no");
-      incorrectFeedback(xy["x"], xy["y"]);
-    }
-  }, [box])
-
-  useEffect(() => {
-    const foundCharacters = window.document.querySelector(".footer-score");
-    if (foundCharacters)
-    foundCharacters.textContent = "Found Characters " + `${foundNumber}/3`;
-    console.log("FOUND CHARACTER", foundNumber);
-  }, [foundNumber]);
-
-
-  useEffect(() => {
-    const token = "aoeu863sheuao3uae93sa3iaotnsxma321455";
-    const url = "/api/v1/levels/index";
-    fetch(url, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
+        else {
+          location.reload(true);
         }
-        throw new Error("Network response was not ok.");
-      })
-      .then((res) => setLevels(res))
-      .catch(() => navigate("/"));
-  }, []);
-  // place checkmark on the found character.
-  function correctFeedback(x, y) {
-    if (correctMarker) {
-      correctMarker.current.classList.replace("disabled", "enabled");
-      incorrectMarker.current.classList.replace("enabled", "disabled");
-      correctMarker.current.style.left = x + "px";
-      correctMarker.current.style.top = y + "px";
-    }
-  }
+      }
 
-  function incorrectFeedback(x, y) {
-    if (incorrectMarker) {
-      incorrectMarker.current.classList.replace("disabled", "enabled");
-      correctMarker.current.classList.replace("enabled", "disabled");
-      incorrectMarker.current.style.left = x + "px";
-      incorrectMarker.current.style.top = y + "px";
-    }
-  }
+      else if (box && box["answer"] == "yes") {
+        console.log(box["characterName"]);
+        levels[1].forEach(element => {
+          if (element.name == box["characterName"] && element.found != true) {
+            element.found = true;
+            correctFeedback(xy["x"], xy["y"]);
+            updateFoundFeedback();
+          }
+        });
+      }
+      else if (box) {
+        console.log("no");
+        incorrectFeedback(xy["x"], xy["y"]);
+      }
+    }, [box])
 
-  function updateFoundFeedback() {
-    setFoundNumber(foundNumber + 1);
-  }
+    useEffect(() => {
+      const foundCharacters = window.document.querySelector(".footer-score");
+      if (foundCharacters)
+      foundCharacters.textContent = "Found Characters " + `${foundNumber}/3`;
+      console.log("FOUND CHARACTER", foundNumber);
+    }, [foundNumber]);
+
+
+    useEffect(() => {
+      const url = "/api/v1/levels/index";
+      apiCall(url, setLevels)
+    }, []);
+    
+    function correctFeedback(x, y) {
+      if (correctMarker) {
+        correctMarker.current.classList.replace("disabled", "enabled");
+        incorrectMarker.current.classList.replace("enabled", "disabled");
+        correctMarker.current.style.left = x + "px";
+        correctMarker.current.style.top = y + "px";
+      }
+    }
+
+    function incorrectFeedback(x, y) {
+      if (incorrectMarker) {
+        incorrectMarker.current.classList.replace("disabled", "enabled");
+        correctMarker.current.classList.replace("enabled", "disabled");
+        incorrectMarker.current.style.left = x + "px";
+        incorrectMarker.current.style.top = y + "px";
+      }
+    }
+
+    function updateFoundFeedback() {
+      setFoundNumber(foundNumber + 1);
+    }
   
   }
   else {
     useEffect(() => {
-    const url = "/api/v1/leaderboard/index";
-    fetch(url)
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        throw new Error("Network response was not ok.");
-      })
-      .then((res) => setLeaderboards(res))
+      const url = "/api/v1/leaderboard/index";
+      apiCall(url, setLeaderboards)
     }, []);
-    useEffect(() => {
-      console.log(leaderboards)
-    }, [leaderboards])
   }
 
   return (
@@ -188,7 +170,7 @@ export default () => {
               <li key={character.id} onClick={(e) => {
                 const characterName = e.target.textContent;
                 console.log(xy);
-                callBackend(xy["x"], xy["y"], characterName);
+                verifyUserGuess(xy["x"], xy["y"], characterName);
               }}>{character.name}</li>
             ))}
           </>
@@ -216,17 +198,15 @@ export default () => {
           </div>
           <div className="usernames">
             {leaderboards.map((player) => (
-              <div key={player.id} onClick={(e) => {
+              <div key={player.id} onClick={() => {
               }}>{player.username}</div>
             ))}
           </div>
           <div className="scores">
-          {leaderboards.map((player) => (
-              <div key={player.id} onClick={(e) => {
-              }}>{player.score}</div>
-            ))
-          }
-      
+            {leaderboards.map((player) => (
+                <div key={player.id} onClick={() => {
+                }}>{player.score}</div>
+            ))}
           </div>
         </div>
       </div>
