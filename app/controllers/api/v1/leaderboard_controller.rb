@@ -6,6 +6,7 @@ class Api::V1::LeaderboardController < ApplicationController
 
   def create
     leaderboard = Leaderboard.new(username: leaderboard_params[:username], score: Level.first.score)
+
     if leaderboard.save
       flash[:notice] = "You have successfully joined the leaderboards."
       redirect_to leaderboard_path

@@ -1,9 +1,9 @@
 class Character < ApplicationRecord
   belongs_to :level
 
-  def self.boxCreation(result) # need to do validation there.
-    x = result["x"].to_i
-    y = result["y"].to_i
+  def self.boxCreation(response) # need to do validation there.
+    x = response["x"].to_i
+    y = response["y"].to_i
     characters = Level.all.order(created_at: :desc).first.characters
     answer = { answer: "no", gameEnd: false }
     characters.each do |char|
@@ -12,7 +12,7 @@ class Character < ApplicationRecord
       x2 = x1 + 64
       y2 = y1 + 120
 
-      if x.between?(x1, x2) && y.between?(y1, y2) && result["character"] == char.name
+      if x.between?(x1, x2) && y.between?(y1, y2) && response["character"] == char.name
         answer = { answer: "yes", characterName: char.name, gameEnd: false }
         char.found = true
         char.save

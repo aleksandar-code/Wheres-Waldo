@@ -29,7 +29,7 @@ export default () => {
   }
 
   const verifyUserGuess = (xPos, yPos, characterName) => {
-    const url = "/api/v1/characters/something?" + 
+    const url = "/api/v1/characters/guess-output?" + 
     `xyzguess[x]=${xPos}&xyzguess[y]=${yPos}&xyzguess[character]=${characterName}`;
     apiCall(url, setBoxes);
   }

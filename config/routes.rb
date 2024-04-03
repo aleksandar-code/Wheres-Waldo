@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       get 'levels/index'
-      get 'characters/something'
+      get 'characters/guess-output', :to => 'characters#guess_output'
       get 'leaderboard/index'
       post 'leaderboard/create'
     end
