@@ -57,7 +57,8 @@ export default () => {
     if (startBtn) {
       if (startBtn.current.classList[1] == "enabled") {
         startBtn.current.classList.replace("enabled", "disabled");
-        level1.current.src = levels[0][0].image;
+        const url = "/api/v1/levels/index";
+        apiCall(url, setLevels);
         level1.current.style.display = "initial";
         window.addEventListener("click", (e) => {
           if (dropDownDom.current != null) {
@@ -82,6 +83,10 @@ export default () => {
         const imageDiv = document.querySelector(".image");
         imageDiv.style.pointerEvents = "none"
         document.querySelector("#score").textContent = box["score"]
+      }
+      else
+      {
+        location.reload(true)
       }
       
     }
@@ -137,13 +142,11 @@ export default () => {
       foundCharacters.textContent = "Found Characters " + `${foundNumber}/3`;
       console.log("FOUND CHARACTER", foundNumber);
     }, [foundNumber]);
-
-
-    useEffect(() => {
-      const url = "/api/v1/levels/index";
-      apiCall(url, setLevels)
-    }, []);
   
+    useEffect(() => {
+      if (levels.length > 1)
+      level1.current.src = levels[0][0].image;
+    }, [levels])
   }
   else {
     useEffect(() => {

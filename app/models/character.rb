@@ -3,9 +3,6 @@ class Character < ApplicationRecord
 
   def self.process_guess(characters_params)
     response = self.targeting_box?(characters_params)
-    if Level.first.timer == 0
-      Leaderboard.start_timer
-    end
     if Level.game_end?
       Level.end_operations(response)
     else

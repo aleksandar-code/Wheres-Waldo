@@ -1,7 +1,9 @@
 class Leaderboard < ApplicationRecord
 
   def self.start_timer
-    Level.first.update!(timer: Time.now.to_i)
+    if Level.first.timer == 0
+      Level.first.update!(timer: Time.now.to_i)
+    end
   end
 
   def self.stop_timer
