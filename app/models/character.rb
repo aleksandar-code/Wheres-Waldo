@@ -38,7 +38,7 @@ class Character < ApplicationRecord
   def self.resetGame
     characters = Character.all.order(created_at: :desc)
     characters.each do |char|
-      char.update!(found: true)
+      char.update!(found: false)
     end
     Level.first.update!(timer: 0)
     Level.first.update!(score: 0)
