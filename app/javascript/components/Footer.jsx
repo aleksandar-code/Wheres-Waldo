@@ -11,9 +11,13 @@ export default (foundCharacters) => {
     </div>
      : 
     <div className="footer">
-      <div className="footer-current-user">acjk20303</div>
-      <div className="footer-user-rank">Rank: 5</div>
-      <div className="footer-user-score">Score: 1000</div>
+      <Link
+        to="/"
+        className="header-btn"
+        role="button"
+      >
+        Play Game
+      </Link>
     </div>}
   </footer>
   )
