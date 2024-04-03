@@ -29,9 +29,7 @@ class Character < ApplicationRecord
 
       if x.between?(x1, x2) && y.between?(y1, y2) && response["character"] == char.name
         answer = { answer: "yes", characterName: char.name, gameEnd: false }
-        char.found = true
-        char.save
-        char.reload
+        char.update!(found: true)
       end
     end
     answer
@@ -40,9 +38,7 @@ class Character < ApplicationRecord
   def self.resetGame
     characters = Character.all.order(created_at: :desc)
     characters.each do |char|
-      char.found = false
-      char.save
-      char.reload
+      char.update!(found: true)
     end
     Level.first.update!(timer: 0)
   end
