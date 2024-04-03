@@ -4,7 +4,7 @@ class Character < ApplicationRecord
   def self.process_guess(characters_params)
     response = self.targeting_box?(characters_params)
     if Level.first.timer == 0
-      Level.first.update!(timer: Time.now.to_i)
+      self.start_timer
     end
     if self.game_end?
       self.end_operations(response)
@@ -13,7 +13,11 @@ class Character < ApplicationRecord
     end
   end
 
-  def self.whole_other_thing(x, y, character, answer)
+  def self.start_timer
+    Level.first.update!(timer: Time.now.to_i)
+  end
+
+  def self.verify_coordinates(x, y, character, answer)
     characters = Level.all.order(created_at: :desc).first.characters
     characters.each do |char|
       x1 = char.pixel_location["x"]
@@ -33,7 +37,7 @@ class Character < ApplicationRecord
     x = response["x"].to_i
     y = response["y"].to_i
     answer = { answer: "no", gameEnd: false }
-    self.whole_other_thing(x, y, response["character"], answer)
+    self.verify_coordinates(x, y, response["character"], answer)
   end
 
   def self.reset_game
@@ -41,7 +45,6 @@ class Character < ApplicationRecord
     characters.each do |char|
       char.update!(found: false)
     end
-    Level.first.update!(timer: 0)
   end
 
   def self.game_end?
@@ -78,9 +81,14 @@ class Character < ApplicationRecord
     response
   end
 
+  def self.stop_timer
+    Level.first.update!(timer: 0)
+  end
+
   def self.end_operations(response)
     response = self.build_response(response)
     self.reset_game
+    self.stop_timer
     response
   end
 end
