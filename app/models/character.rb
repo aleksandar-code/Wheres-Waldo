@@ -13,23 +13,27 @@ class Character < ApplicationRecord
     end
   end
 
-  def self.targeting_box?(response)
-    x = response["x"].to_i
-    y = response["y"].to_i
+  def self.whole_other_thing(x, y, character, answer)
     characters = Level.all.order(created_at: :desc).first.characters
-    answer = { answer: "no", gameEnd: false }
     characters.each do |char|
       x1 = char.pixel_location["x"]
       y1 = char.pixel_location["y"]
       x2 = x1 + 64
       y2 = y1 + 120
 
-      if x.between?(x1, x2) && y.between?(y1, y2) && response["character"] == char.name
+      if x.between?(x1, x2) && y.between?(y1, y2) && character == char.name
         answer = { answer: "yes", characterName: char.name, gameEnd: false }
         char.update!(found: true)
       end
     end
     answer
+  end
+
+  def self.targeting_box?(response)
+    x = response["x"].to_i
+    y = response["y"].to_i
+    answer = { answer: "no", gameEnd: false }
+    self.whole_other_thing(x, y, response["character"], answer)
   end
 
   def self.reset_game
@@ -38,7 +42,6 @@ class Character < ApplicationRecord
       char.update!(found: false)
     end
     Level.first.update!(timer: 0)
-    Level.first.update!(score: 0)
   end
 
   def self.game_end?

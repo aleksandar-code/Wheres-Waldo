@@ -178,7 +178,7 @@ export default () => {
       </div>
     </> :
     <>
-    { leaderboards.length > 1 ?
+    { leaderboards.length >= 1 ?
       <div className="leaderboard">
         <div className="leaderboard-titles">
           <div>Rank</div>
