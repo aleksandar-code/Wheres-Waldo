@@ -1,6 +1,21 @@
 class Character < ApplicationRecord
   belongs_to :level
 
+  def self.process_guess(characters_params)
+    response = self.boxCreation(characters_params)
+    if Level.first.timer == 0
+      Level.first.update!(timer: Time.now.to_i)
+    end
+    if self.gameEnds
+      response[:gameEnd] = true
+      response[:score] = self.calculateScore
+      Level.first.update!(score: response[:score])
+      response[:highscore] = self.isHighScore(response[:score])
+      self.resetGame
+    end
+    response
+  end
+
   def self.boxCreation(response) # need to do validation there.
     x = response["x"].to_i
     y = response["y"].to_i
