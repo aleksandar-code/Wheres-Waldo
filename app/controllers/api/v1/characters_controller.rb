@@ -10,6 +10,6 @@ class Api::V1::CharactersController < ApplicationController
   end
 
   def characters_params
-    params.require(:xyzguess).permit(:x, :y, :character)
+    params.require(:guess).permit(:x, :y, :character)
   end
 end

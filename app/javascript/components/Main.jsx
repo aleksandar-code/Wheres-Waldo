@@ -3,18 +3,17 @@ import { useLocation, useNavigate} from 'react-router-dom';
 import LeaderboardInput from "./LeaderboardInput";
 
 export default () => {
-  const [leaderboards, setLeaderboards] = useState([]);
   const navigate = useNavigate();
+  const [leaderboards, setLeaderboards] = useState([]);
   const [levels, setLevels] = useState([]);
   const [box, setBoxes] = useState();
   const [xy, setXy] = useState({x: 0, y: 0});
+  const [foundNumber, setFoundNumber] = useState(0);
   const level1 = useRef(null);
   const startBtn = useRef(null);
   const dropDownDom = useRef(null);
   const correctMarker = useRef(null);
   const incorrectMarker = useRef(null);
-  const [foundNumber, setFoundNumber] = useState(0)
-  // refactor api calls
 
   const apiCall = (url, setState) => {
     fetch(url)
@@ -30,7 +29,7 @@ export default () => {
 
   const verifyUserGuess = (xPos, yPos, characterName) => {
     const url = "/api/v1/characters/guess-output?" + 
-    `xyzguess[x]=${xPos}&xyzguess[y]=${yPos}&xyzguess[character]=${characterName}`;
+    `guess[x]=${xPos}&guess[y]=${yPos}&guess[character]=${characterName}`;
     apiCall(url, setBoxes);
   }
 
@@ -45,13 +44,11 @@ export default () => {
         dropDownDom.current.style.left = xPos + "px";
         dropDownDom.current.style.top = yPos + "px";
         setXy({x: xPos, y: yPos});
-        console.log(xPos, yPos);
       } 
     else {
       dropDownDom.current.style.left = xPos + "px";
       dropDownDom.current.style.top = yPos + "px";
       setXy({x: xPos, y: yPos});
-      console.log(xPos, yPos);
       }
     }
   }
@@ -74,41 +71,64 @@ export default () => {
     }
   }
 
+  const guessResult = () => {
+    if (box && box["gameEnd"] == true) {
+      correctFeedback(xy["x"], xy["y"]);
+      updateFoundFeedback();
+      if (box["highscore"] == true) {
+        const div = document.querySelector(".input-username");
+        div.classList.replace("disabled", "enabled");
+
+        const imageDiv = document.querySelector(".image");
+        imageDiv.style.pointerEvents = "none"
+        document.querySelector("#score").textContent = box["score"]
+      }
+      
+    }
+    else if (box && box["answer"] == "yes") {
+      console.log(box["characterName"]);
+      levels[1].forEach(element => {
+        if (element.name == box["characterName"] && element.found != true) {
+          element.found = true;
+          correctFeedback(xy["x"], xy["y"]);
+          updateFoundFeedback();
+        }
+      });
+    }
+    else if (box) {
+      console.log("no");
+      incorrectFeedback(xy["x"], xy["y"]);
+    }
+  }
+
+  function correctFeedback(x, y) {
+    if (correctMarker) {
+      correctMarker.current.classList.replace("disabled", "enabled");
+      incorrectMarker.current.classList.replace("enabled", "disabled");
+      correctMarker.current.style.left = x + "px";
+      correctMarker.current.style.top = y + "px";
+    }
+  }
+
+  function incorrectFeedback(x, y) {
+    if (incorrectMarker) {
+      incorrectMarker.current.classList.replace("disabled", "enabled");
+      correctMarker.current.classList.replace("enabled", "disabled");
+      incorrectMarker.current.style.left = x + "px";
+      incorrectMarker.current.style.top = y + "px";
+    }
+  }
+
+  function updateFoundFeedback() {
+    setFoundNumber(foundNumber + 1);
+  }
+
 
   if (useLocation().pathname == '/')
   {
     useEffect(() => {
       console.log(box)
-      if (box && box["gameEnd"] == true) {
-        correctFeedback(xy["x"], xy["y"]);
-        updateFoundFeedback();
-        if (box["highscore"] == true) {
-          const div = document.querySelector(".input-username");
-          div.classList.replace("disabled", "enabled");
-
-          const imageDiv = document.querySelector(".image");
-          imageDiv.style.pointerEvents = "none"
-          document.querySelector("#score").textContent = box["score"]
-        }
-        else {
-          location.reload(true);
-        }
-      }
-
-      else if (box && box["answer"] == "yes") {
-        console.log(box["characterName"]);
-        levels[1].forEach(element => {
-          if (element.name == box["characterName"] && element.found != true) {
-            element.found = true;
-            correctFeedback(xy["x"], xy["y"]);
-            updateFoundFeedback();
-          }
-        });
-      }
-      else if (box) {
-        console.log("no");
-        incorrectFeedback(xy["x"], xy["y"]);
-      }
+      guessResult()
     }, [box])
 
     useEffect(() => {
@@ -123,28 +143,6 @@ export default () => {
       const url = "/api/v1/levels/index";
       apiCall(url, setLevels)
     }, []);
-    
-    function correctFeedback(x, y) {
-      if (correctMarker) {
-        correctMarker.current.classList.replace("disabled", "enabled");
-        incorrectMarker.current.classList.replace("enabled", "disabled");
-        correctMarker.current.style.left = x + "px";
-        correctMarker.current.style.top = y + "px";
-      }
-    }
-
-    function incorrectFeedback(x, y) {
-      if (incorrectMarker) {
-        incorrectMarker.current.classList.replace("disabled", "enabled");
-        correctMarker.current.classList.replace("enabled", "disabled");
-        incorrectMarker.current.style.left = x + "px";
-        incorrectMarker.current.style.top = y + "px";
-      }
-    }
-
-    function updateFoundFeedback() {
-      setFoundNumber(foundNumber + 1);
-    }
   
   }
   else {
@@ -169,7 +167,6 @@ export default () => {
             {levels[1].map((character) => (
               <li key={character.id} onClick={(e) => {
                 const characterName = e.target.textContent;
-                console.log(xy);
                 verifyUserGuess(xy["x"], xy["y"], characterName);
               }}>{character.name}</li>
             ))}
