@@ -41,6 +41,7 @@ class Character < ApplicationRecord
       char.update!(found: true)
     end
     Level.first.update!(timer: 0)
+    Level.first.update!(score: 0)
   end
 
   def self.gameEnds
